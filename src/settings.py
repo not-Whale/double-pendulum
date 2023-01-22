@@ -2,8 +2,9 @@ import tkinter as tk
 
 
 class Settings:
-    def __init__(self, root):
+    def __init__(self, root, pendulum):
         self.root = root
+        self.pendulum = pendulum
 
         self.length_1 = 90
         self.length_2 = 90

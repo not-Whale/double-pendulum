@@ -11,9 +11,9 @@ class App:
         self.root.title('rezepinn/bmstu/pendulum.app')
         self.root.resizable(False, False)
 
-        self.timer = timer.Timer(self.root)
-        self.settings = settings.Settings(self.root)
         self.pendulum = pendulum.Pendulum(self.root)
+        self.timer = timer.Timer(self.root, self.pendulum)
+        self.settings = settings.Settings(self.root, self.pendulum)
 
         self.root.mainloop()
 

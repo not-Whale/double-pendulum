@@ -3,11 +3,12 @@ import tkinter as tk
 
 
 class Timer:
-    def __init__(self, root):
+    def __init__(self, root, pendulum):
         self.root = root
+        self.pendulum = pendulum
 
-        self.start_time = time.time()
         self.timer_status = False
+        self.start_time = time.time()
 
         self.timer_label = tk.Label()
         self.button_start = tk.Button()
