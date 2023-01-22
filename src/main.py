@@ -1,3 +1,4 @@
+import timer
 import tkinter as tk
 
 
@@ -7,6 +8,8 @@ class App:
 
         self.root.title('rezepinn/bmstu/pendulum.app')
         self.root.resizable(False, False)
+
+        self.timer = timer.Timer(self.root)
 
         self.root.mainloop()
 
