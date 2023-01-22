@@ -1,3 +1,4 @@
+import settings
 import timer
 import tkinter as tk
 
@@ -10,6 +11,7 @@ class App:
         self.root.resizable(False, False)
 
         self.timer = timer.Timer(self.root)
+        self.settings = settings.Settings(self.root)
 
         self.root.mainloop()
 
