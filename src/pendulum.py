@@ -18,8 +18,8 @@ class Pendulum:
         self.init_canvas()
 
         # init pendulum settings
-        self.length_1 = 0.90
-        self.length_2 = 0.90
+        self.length_1 = 90
+        self.length_2 = 90
         self.mass_1 = 1
         self.mass_2 = 1
         self.alpha = np.pi / 2

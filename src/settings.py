@@ -62,6 +62,8 @@ class Settings:
             columnspan=3
         )
 
+        self.mass1_scale.set(1.0)
+
     def init_mass2_scale(self):
         mass2_frame = tk.Frame(
             master=self.root
@@ -101,6 +103,8 @@ class Settings:
             column=0,
             columnspan=3
         )
+
+        self.mass1_scale.set(1.0)
 
     def init_len1_scale(self):
         len1_frame = tk.Frame(
@@ -142,6 +146,8 @@ class Settings:
             columnspan=3
         )
 
+        self.len1_scale.set(90)
+
     def init_len2_scale(self):
         len2_frame = tk.Frame(
             master=self.root
@@ -181,6 +187,8 @@ class Settings:
             column=0,
             columnspan=3
         )
+
+        self.len2_scale.set(90)
 
     def init_confirm_button(self):
         self.confirm_button = tk.Button(
