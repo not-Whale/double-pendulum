@@ -12,6 +12,7 @@ class App:
 
         self.timer = timer.Timer(self.root)
         self.settings = settings.Settings(self.root)
+        self.pendulum = pendulum.Pendulum(self.root)
 
         self.root.mainloop()
 
