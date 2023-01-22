@@ -14,9 +14,9 @@ class Timer:
         self.button_stop = tk.Button()
         self.error_label = tk.Button()
 
-        self.init_timer()
+        self.init_and_grid_timer()
 
-    def init_timer(self):
+    def init_and_grid_timer(self):
         timer_frame = tk.Frame(
             master=self.root
         )

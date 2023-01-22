@@ -15,7 +15,7 @@ class Pendulum:
         self.canvas_width = 400
         self.canvas_height = 400
         self.canvas = tk.Canvas()
-        self.init_canvas()
+        self.init_and_grid_canvas()
 
         # init pendulum settings
         self.length_1 = 90
@@ -38,11 +38,11 @@ class Pendulum:
 
         # init tracer
         self.tracer = tracer.Tracer()
-        self.init_tracer()
+        self.init_and_grid_tracer()
 
         self.start_pendulum()
 
-    def test_nazi_pendulum(self):
+    def calc_pendulum_angles(self):
         t = self.current_time
 
         a11 = (self.length_1 ** 2) * (self.mass_1 + self.mass_2) / G
@@ -92,7 +92,7 @@ class Pendulum:
     def update_pendulum(self):
         if self.current_time < 1000000:
             print('time = ' + str(self.current_time))
-            self.test_nazi_pendulum()
+            self.calc_pendulum_angles()
             self.draw_pendulum()
             self.draw_trace('green')
             self.current_time = time.time() - self.start_time
@@ -125,7 +125,7 @@ class Pendulum:
             )
 
     def draw_pendulum(self):
-        self.init_canvas()
+        self.init_and_grid_canvas()
 
         self.canvas.create_oval(
             self.center_coords[0] - 3,
@@ -170,11 +170,11 @@ class Pendulum:
             fill=BOB2_COLOR
         )
 
-    def init_tracer(self):
+    def init_and_grid_tracer(self):
         self.tracer = tracer.Tracer()
         self.tracer.add_coord(self.bob2_coords[0], self.bob2_coords[1])
 
-    def init_canvas(self):
+    def init_and_grid_canvas(self):
         self.canvas = tk.Canvas(
             master=self.root,
             background='black',
