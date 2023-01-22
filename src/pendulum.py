@@ -18,10 +18,10 @@ class Pendulum:
         self.init_canvas()
 
         # init pendulum settings
-        self.length1 = 0.90
-        self.length2 = 0.90
-        self.mass1 = 1
-        self.mass2 = 1
+        self.length_1 = 0.90
+        self.length_2 = 0.90
+        self.mass_1 = 1
+        self.mass_2 = 1
         self.alpha = np.pi / 2
         self.beta = np.pi / 2
 
@@ -33,8 +33,8 @@ class Pendulum:
         self.center_coords = [self.canvas_width / 2, 2 * self.canvas_height / 5]
 
         # init pendulum bobs
-        self.bob1_coords = [self.center_coords[0] + self.length1, self.center_coords[1]]
-        self.bob2_coords = [self.bob1_coords[0] + self.length2, self.bob1_coords[1]]
+        self.bob1_coords = [self.center_coords[0] + self.length_1, self.center_coords[1]]
+        self.bob2_coords = [self.bob1_coords[0] + self.length_2, self.bob1_coords[1]]
 
         # init tracer
         self.tracer = tracer.Tracer()
@@ -45,18 +45,18 @@ class Pendulum:
     def test_nazi_pendulum(self):
         t = self.current_time
 
-        a11 = (self.length1 ** 2) * (self.mass1 + self.mass2) / G
-        a12 = (self.mass1 * self.length1 * self.length2) / G
-        a22 = (self.mass2 * (self.length2 ** 2)) / G
+        a11 = (self.length_1 ** 2) * (self.mass_1 + self.mass_2) / G
+        a12 = (self.mass_1 * self.length_1 * self.length_2) / G
+        a22 = (self.mass_2 * (self.length_2 ** 2)) / G
 
-        c11 = (self.mass1 + self.mass2) * self.length1
+        c11 = (self.mass_1 + self.mass_2) * self.length_1
         c12 = 0
-        c22 = self.mass2 * self.length2
+        c22 = self.mass_2 * self.length_2
 
-        n1 = np.sqrt(G / self.length1)
-        n2 = np.sqrt(G / self.length2)
+        n1 = np.sqrt(G / self.length_1)
+        n2 = np.sqrt(G / self.length_2)
 
-        x = np.sqrt((self.mass2 ** 2) / ((self.mass1 + self.mass2) * self.mass2))
+        x = np.sqrt((self.mass_2 ** 2) / ((self.mass_1 + self.mass_2) * self.mass_2))
 
         k1 = np.sqrt((1 / (2 * (1 - (x ** 2)))) *
                      ((n1 ** 2) + (n2 ** 2) + np.sqrt((((n2 ** 2) - (n1 ** 2)) ** 2) + 4 * (x ** 2) * (n1 ** 2) * (n2 ** 2))))
@@ -100,14 +100,14 @@ class Pendulum:
 
     def calc_bob1_coords(self):
         self.bob1_coords = [
-            self.center_coords[0] + 100 * self.length1 * np.sin(self.alpha),
-            self.center_coords[1] + 100 * self.length1 * np.cos(self.alpha)
+            self.center_coords[0] + 100 * self.length_1 * np.sin(self.alpha),
+            self.center_coords[1] + 100 * self.length_1 * np.cos(self.alpha)
         ]
 
     def calc_bob2_coords(self):
         self.bob2_coords = [
-            self.bob1_coords[0] + 100 * self.length2 * np.sin(self.beta),
-            self.bob1_coords[1] + 100 * self.length2 * np.cos(self.beta)
+            self.bob1_coords[0] + 100 * self.length_2 * np.sin(self.beta),
+            self.bob1_coords[1] + 100 * self.length_2 * np.cos(self.beta)
         ]
 
     def draw_trace(self, color):
