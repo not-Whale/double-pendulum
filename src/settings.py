@@ -104,7 +104,7 @@ class Settings:
             columnspan=3
         )
 
-        self.mass1_scale.set(1.0)
+        self.mass2_scale.set(1.0)
 
     def init_len1_scale(self):
         len1_frame = tk.Frame(
