@@ -1,3 +1,4 @@
+import pendulum
 import settings
 import timer
 import tkinter as tk
