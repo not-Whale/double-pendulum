@@ -11,6 +11,7 @@ class Settings:
         self.mass_1 = 1.0
         self.mass_2 = 1.0
 
+        # TODO: посмотреть настройки Scale
         self.mass_1_scale = tk.Scale()
         self.mass_2_scale = tk.Scale()
         self.length_1_scale = tk.Scale()

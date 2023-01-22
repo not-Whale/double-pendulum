@@ -47,48 +47,9 @@ class Pendulum:
         self.start_pendulum()
 
     def calc_pendulum_angles(self):
-        t = self.current_time
-
-        a11 = (self.length_1 ** 2) * (self.mass_1 + self.mass_2) / G
-        a12 = (self.mass_1 * self.length_1 * self.length_2) / G
-        a22 = (self.mass_2 * (self.length_2 ** 2)) / G
-
-        c11 = (self.mass_1 + self.mass_2) * self.length_1
-        c12 = 0
-        c22 = self.mass_2 * self.length_2
-
-        n1 = np.sqrt(G / self.length_1)
-        n2 = np.sqrt(G / self.length_2)
-
-        x = np.sqrt((self.mass_2 ** 2) / ((self.mass_1 + self.mass_2) * self.mass_2))
-
-        k1 = np.sqrt((1 / (2 * (1 - (x ** 2)))) *
-                     ((n1 ** 2) + (n2 ** 2) + np.sqrt((((n2 ** 2) - (n1 ** 2)) ** 2) + 4 * (x ** 2) * (n1 ** 2) * (n2 ** 2))))
-
-        k2 = np.sqrt((1 / (2 * (1 - (x ** 2)))) *
-                     ((n1 ** 2) + (n2 ** 2) - np.sqrt((((n2 ** 2) - (n1 ** 2)) ** 2) + 4 * (x ** 2) * (n1 ** 2) * (n2 ** 2))))
-
-        ce1 = 50.0
-        ce2 = 50.0
-
-        alpha1 = np.pi / 2
-        alpha2 = np.pi / 2
-
-        self.alpha = np.radians(ce1 * (c22 - (k1 ** 2) * a22) * np.sin(k1 * t + alpha1) +
-                                ce2 * (c22 - k2 * a22) * np.sin(k2 * t + alpha2))
-
-        self.beta = np.radians(ce1 * (k1 ** 2) * a12 * np.sin(k1 * t + alpha1) +
-                               ce2 * (k2 ** 2) * a12 * np.sin(k2 * t + alpha2))
-
-        self.calc_bob1_coords()
-        self.calc_bob2_coords()
-
-        # print('alpha = ' + str(self.alpha))
-        # print('beta = ' + str(self.beta))
-        # print('x bob1 = ' + str(self.bob1_coords.get_x()))
-        # print('y bob1 = ' + str(self.bob1_coords.get_y()))
-        # print()
-
+        # f начнем с чистого листа
+        pass
+    
     def stop_pendulum(self):
         self.is_active = False
 
