@@ -24,6 +24,9 @@ class Settings:
         self.init_and_grid_length2_scale()
         self.init_confirm_button()
 
+        # TODO: сделать булеан на трейсинг
+        # TODO: сделать удаление трейса
+
     def init_and_grid_mass1_scale(self):
         mass_1_frame = tk.Frame(
             master=self.root
