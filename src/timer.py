@@ -17,9 +17,9 @@ class Timer:
         self.timer_label = tk.Label()
         self.button_start = tk.Button()
         self.button_stop = tk.Button()
-        self.init_and_grid_timer()
+        self.initiate_and_grid_timer()
 
-    def init_and_grid_timer(self):
+    def initiate_and_grid_timer(self):
         # frame for timer and buttons
         timer_frame = tk.Frame(
             master=self.root
