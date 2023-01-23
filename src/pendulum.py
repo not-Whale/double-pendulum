@@ -70,6 +70,18 @@ class Pendulum:
             # next step
             self.root.after(10, self.update_pendulum)
 
+    def set_mass1(self, mass1):
+        self.mass1 = mass1
+
+    def set_mass2(self, mass2):
+        self.mass2 = mass2
+
+    def set_length1(self, length1):
+        self.length1 = length1
+
+    def set_length2(self, length2):
+        self.length2 = length2
+
     def set_tracing_mode(self, code):
         self.tracing_mode = code
         self.initiate_and_grid_tracers()

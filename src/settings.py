@@ -215,8 +215,12 @@ class Settings:
         )
 
     def set_settings(self):
-        pass
-    #     self.length1 = self.length1_scale.get()
-    #     self.length2 = self.length2_scale.get()
-    #     self.mass1 = self.mass1_scale.get()
-    #     self.mass2 = self.mass2_scale.get()
+        # set new pendulum settings
+        self.pendulum.set_mass1(self.mass1_scale.get())
+        self.pendulum.set_mass2(self.mass2_scale.get())
+        self.pendulum.set_length1(self.length1_scale.get())
+        self.pendulum.set_length2(self.length2_scale.get())
+
+        # update picture on canvas
+        self.pendulum.calculate_pendulum_state()
+        self.pendulum.draw_pendulum()
