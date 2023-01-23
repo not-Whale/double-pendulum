@@ -17,18 +17,14 @@ class Pendulum:
         self.initiate_and_grid_canvas()
 
         # initiate pendulum settings
-        self.length1 = 90.0
-        self.length2 = 90.0
-        self.mass1 = 1.0
-        self.mass2 = 1.0
+        self.length1 = 90
+        self.length2 = 90
+        self.mass1 = 5.0
+        self.mass2 = 5.0
         self.alpha = np.pi / 2
         self.beta = np.pi / 2
         self.d_alpha = 0.0
         self.d_beta = 0.0
-
-        # initiate start time and current time
-        self.start_time = time.time()
-        # self.current_time = 0.0
 
         # set center pendulum coordinates
         self.center_coords = Point(CANVAS_WIDTH / 2, 2 * CANVAS_HEIGHT / 5)
@@ -40,7 +36,7 @@ class Pendulum:
         # initiate tracer
         self.bob1_tracer = tracer.Tracer()
         self.bob2_tracer = tracer.Tracer()
-        self.initiate_and_grid_tracers()
+        self.initiate_tracers()
 
         # pendulum movement and drawing flags
         self.is_active = False
@@ -51,11 +47,10 @@ class Pendulum:
 
     def stop_pendulum(self):
         self.is_active = False
-        self.initiate_and_grid_tracers()
+        self.initiate_tracers()
 
     def start_pendulum(self):
         self.is_active = True
-        self.start_time = time.time()
         self.update_pendulum()
 
     def update_pendulum(self):
@@ -69,6 +64,27 @@ class Pendulum:
 
             # next step
             self.root.after(10, self.update_pendulum)
+
+    def reset_pendulum(self):
+        # reset pendulum settings
+        self.length1 = 90
+        self.length2 = 90
+        self.mass1 = 5.0
+        self.mass2 = 5.0
+        self.alpha = np.pi / 2
+        self.beta = np.pi / 2
+        self.d_alpha = 0.0
+        self.d_beta = 0.0
+
+        # reset tracing mode
+        self.tracing_mode = 0
+
+        # reset coordinates
+        self.bob1_coords = Point(self.center_coords.get_x() + self.length1, self.center_coords.get_y())
+        self.bob2_coords = Point(self.bob1_coords.get_x() + self.length2, self.bob1_coords.get_y())
+
+        # reset tracers
+        self.initiate_tracers()
 
     def set_mass1(self, mass1):
         self.mass1 = mass1
@@ -85,6 +101,7 @@ class Pendulum:
     def set_tracing_mode(self, code):
         self.tracing_mode = code
         self.canvas.delete('trace')
+        self.initiate_tracers()
 
     def calculate_pendulum_state(self):
         self.calculate_pendulum_angles()
@@ -237,7 +254,7 @@ class Pendulum:
             tags=['pendulum']
         )
 
-    def initiate_and_grid_tracers(self):
+    def initiate_tracers(self):
         self.bob1_tracer = tracer.Tracer()
         self.bob1_tracer.add_coord(self.bob1_coords.get_x(), self.bob1_coords.get_y())
 

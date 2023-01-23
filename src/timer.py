@@ -17,6 +17,7 @@ class Timer:
         self.timer_label = tk.Label()
         self.button_start = tk.Button()
         self.button_stop = tk.Button()
+        self.button_reset = tk.Button()
         self.initiate_and_grid_timer()
 
     def initiate_and_grid_timer(self):
@@ -48,7 +49,7 @@ class Timer:
 
         self.button_start = tk.Button(
             master=timer_frame,
-            text='start',
+            text='запустить',
             width=10,
             height=1,
             command=self.start_timer
@@ -62,7 +63,7 @@ class Timer:
 
         self.button_stop = tk.Button(
             master=timer_frame,
-            text='stop',
+            text='остановить',
             width=10,
             height=1,
             command=self.stop_timer,
@@ -75,10 +76,25 @@ class Timer:
             columnspan=3
         )
 
+        self.button_reset = tk.Button(
+            master=timer_frame,
+            text='сбросить',
+            width=10,
+            height=1,
+            command=self.reset_timer
+        )
+        self.button_reset.grid(
+            row=3,
+            rowspan=1,
+            column=0,
+            columnspan=3
+        )
+
     def start_timer(self):
         # set buttons state
         self.button_start['state'] = 'disabled'
         self.button_stop['state'] = 'normal'
+        self.button_reset['state'] = 'disabled'
         self.settings.confirm_button['state'] = 'disabled'
 
         # start pendulum
@@ -99,6 +115,7 @@ class Timer:
         # set buttons state
         self.button_start['state'] = 'normal'
         self.button_stop['state'] = 'disabled'
+        self.button_reset['state'] = 'normal'
         self.settings.confirm_button['state'] = 'normal'
 
         # stop pendulum
@@ -106,3 +123,15 @@ class Timer:
 
         # stop timer
         self.is_active = False
+
+    def reset_timer(self):
+        # reset timer
+        self.timer_label['text'] = '0.00 ms'
+
+        # reset pendulum
+        self.pendulum.reset_pendulum()
+        self.pendulum.draw_pendulum()
+        self.pendulum.draw_traces()
+
+        # reset settings
+        self.settings.reset_settings()

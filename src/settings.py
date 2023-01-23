@@ -272,3 +272,10 @@ class Settings:
         # update picture on canvas
         self.pendulum.draw_pendulum()
         self.pendulum.draw_traces()
+
+    def reset_settings(self):
+        self.mass1_scale.set(5)
+        self.mass2_scale.set(5)
+        self.length1_scale.set(90)
+        self.length2_scale.set(90)
+        self.tracing_mode_scale.set(0)
