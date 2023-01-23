@@ -9,49 +9,74 @@ from consts import *
 
 class Pendulum:
     def __init__(self, root):
-        # root window
+        # set root window
         self.root = root
 
-        # init pendulum canvas
-        self.canvas_width = 400
-        self.canvas_height = 400
+        # initiate pendulum canvas
         self.canvas = tk.Canvas()
-        self.init_and_grid_canvas()
+        self.initiate_and_grid_canvas()
 
-        # init pendulum settings
+        # initiate pendulum settings
         self.length_1 = 90.0
         self.length_2 = 90.0
         self.mass_1 = 1.0
         self.mass_2 = 1.0
         self.alpha = np.pi / 2
         self.beta = np.pi / 2
-
-        # TODO: init derivatives
         self.d_alpha = 0.0
         self.d_beta = 0.0
 
-        # init start time
+        # set start time and current time
         self.start_time = time.time()
         self.current_time = 0.0
 
-        # init center pendulum coords
-        self.center_coords = Point(self.canvas_width / 2, 2 * self.canvas_height / 5)
+        # set center pendulum coordinates
+        self.center_coords = Point(CANVAS_WIDTH / 2, 2 * CANVAS_HEIGHT / 5)
 
-        # init pendulum bobs
+        # initiate pendulum bob's coordinates
         self.bob1_coords = Point(self.center_coords.get_x() + self.length_1, self.center_coords.get_y())
         self.bob2_coords = Point(self.bob1_coords.get_x() + self.length_2, self.bob1_coords.get_y())
 
-        # init tracer
-        self.tracer = tracer.Tracer()
-        self.init_and_grid_tracer()
+        # initiate tracer
+        self.bob_1_tracer = tracer.Tracer()
+        self.bob_2_tracer = tracer.Tracer()
+        self.initiate_and_grid_tracers()
 
-        # pendulum movement flag
+        # pendulum movement and drawing flags
+        self.is_active = False
+        self.tracing_mode = 2
+
+        # set start state
+        self.draw_pendulum()
+
+    def stop_pendulum(self):
         self.is_active = False
 
-        self.start_pendulum()
+    def start_pendulum(self):
+        self.is_active = True
+        self.start_time = time.time()
+        self.update_pendulum()
 
-    def calc_pendulum_angles(self):
-        # Components for the 2nd derivative of theta for pendulum 1
+    def update_pendulum(self):
+        if self.is_active:
+            self.current_time = time.time() - self.start_time
+
+            # calculating
+            self.calculate_pendulum_state()
+
+            # drawing
+            self.draw_pendulum()
+            self.draw_bobs_traces()
+
+            self.root.after(10, self.update_pendulum)
+
+    def calculate_pendulum_state(self):
+        self.calculate_pendulum_angles()
+        self.calculate_bob1_coords()
+        self.calculate_bob2_coords()
+
+    def calculate_pendulum_angles(self):
+        # components for the 2nd derivative of alpha for first bob
         component_1 = (- G * (2 * self.mass_1 + self.mass_2) * np.sin(self.alpha)) - \
                       (self.mass_2 * G * np.sin(self.alpha - 2 * self.beta))
 
@@ -62,9 +87,10 @@ class Pendulum:
         component_3 = (2 * self.length_1 * self.mass_1) + \
                       (self.length_1 * self.mass_2 * (1 - np.cos(2 * self.alpha - 2 * self.beta)))
 
+        # second derivative of alpha
         dd_alpha = (component_1 - component_2) / component_3
 
-        # Components for the 2nd derivative of theta for pendulum 2
+        # components for the 2nd derivative of beta for second bob
         component_1 = 2 * np.sin(self.alpha - self.beta)
 
         component_2 = (self.d_alpha ** 2 * self.length_1 * (self.mass_1 + self.mass_2)) + \
@@ -75,63 +101,66 @@ class Pendulum:
                       (self.length_2 * self.mass_2) + \
                       (self.length_2 * self.mass_2 * np.cos(2 * (self.alpha - self.beta)))
 
+        # second derivative of beta
         dd_beta = (component_1 * component_2) / component_3
 
+        # update d_angles and angles values
         self.d_alpha += dd_alpha * DELTA
         self.d_beta += dd_beta * DELTA
-
         self.alpha += self.d_alpha * DELTA
         self.beta += self.d_beta * DELTA
 
-    def stop_pendulum(self):
-        self.is_active = False
-
-    def start_pendulum(self):
-        self.start_time = time.time()
-        self.is_active = True
-        self.update_pendulum()
-
-    def update_pendulum(self):
-        if self.is_active:
-            # print('time = ' + str(self.current_time))
-            self.current_time = time.time() - self.start_time
-            # calculating
-            self.calc_pendulum_angles()
-            self.calc_bob1_coords()
-            self.calc_bob2_coords()
-            # drawing
-            self.draw_pendulum()
-            # circle
-            self.root.after(10, self.update_pendulum)
-
-    def calc_bob1_coords(self):
+    def calculate_bob1_coords(self):
         self.bob1_coords = Point(
             self.center_coords.get_x() + self.length_1 * np.sin(self.alpha),
             self.center_coords.get_y() + self.length_1 * np.cos(self.alpha)
         )
 
-    def calc_bob2_coords(self):
+        self.bob_1_tracer.add_coord(
+            self.center_coords.get_x() + self.length_1 * np.sin(self.alpha),
+            self.center_coords.get_y() + self.length_1 * np.cos(self.alpha)
+        )
+
+    def calculate_bob2_coords(self):
         self.bob2_coords = Point(
             self.bob1_coords.get_x() + self.length_2 * np.sin(self.beta),
             self.bob1_coords.get_y() + self.length_2 * np.cos(self.beta)
         )
 
-    # def draw_trace(self, color):
-    #     trace_x = self.tracer.get_trace()[0]
-    #     trace_y = self.tracer.get_trace()[1]
-    #
-    #     trace_len = len(trace_x)
-    #     for i in range(trace_len - 1):
-    #         self.canvas.create_line(
-    #             trace_x[i],
-    #             trace_y[i],
-    #             trace_x[i + 1],
-    #             trace_y[i + 1],
-    #             fill=color
-    #         )
+        self.bob_2_tracer.add_coord(
+            self.bob1_coords.get_x() + self.length_2 * np.sin(self.beta),
+            self.bob1_coords.get_y() + self.length_2 * np.cos(self.beta)
+        )
+
+    def draw_bobs_traces(self):
+        self.canvas.delete('trace')
+
+        if self.tracing_mode > 0:
+            self.draw_trace(
+                self.bob_1_tracer.get_trace(),
+                TRACE_BOB1_COLOR
+            )
+
+        if self.tracing_mode > 1:
+            self.draw_trace(
+                self.bob_2_tracer.get_trace(),
+                TRACE_BOB2_COLOR
+            )
+
+    def draw_trace(self, trace, color):
+        trace_length = len(trace)
+        for i in range(trace_length - 1):
+            self.canvas.create_line(
+                trace[i].get_x(),
+                trace[i].get_y(),
+                trace[i + 1].get_x(),
+                trace[i + 1].get_y(),
+                fill=color,
+                tags=['trace']
+            )
 
     def draw_pendulum(self):
-        self.init_and_grid_canvas()
+        self.canvas.delete('pendulum')
 
         self.canvas.create_oval(
             self.center_coords.get_x() - 3,
@@ -139,7 +168,8 @@ class Pendulum:
             self.center_coords.get_x() + 3,
             self.center_coords.get_y() + 3,
             outline='white',
-            fill='white'
+            fill='white',
+            tags=['pendulum']
         )
 
         self.canvas.create_line(
@@ -147,7 +177,8 @@ class Pendulum:
             self.center_coords.get_y(),
             self.bob1_coords.get_x(),
             self.bob1_coords.get_y(),
-            fill='white'
+            fill='white',
+            tags=['pendulum']
         )
 
         self.canvas.create_line(
@@ -155,7 +186,8 @@ class Pendulum:
             self.bob1_coords.get_y(),
             self.bob2_coords.get_x(),
             self.bob2_coords.get_y(),
-            fill='white'
+            fill='white',
+            tags=['pendulum']
         )
 
         self.canvas.create_oval(
@@ -164,7 +196,8 @@ class Pendulum:
             self.bob1_coords.get_x() + 5,
             self.bob1_coords.get_y() + 5,
             outline=BOB1_COLOR,
-            fill=BOB1_COLOR
+            fill=BOB1_COLOR,
+            tags=['pendulum']
         )
 
         self.canvas.create_oval(
@@ -173,19 +206,23 @@ class Pendulum:
             self.bob2_coords.get_x() + 5,
             self.bob2_coords.get_y() + 5,
             outline=BOB2_COLOR,
-            fill=BOB2_COLOR
+            fill=BOB2_COLOR,
+            tags=['pendulum']
         )
 
-    def init_and_grid_tracer(self):
-        self.tracer = tracer.Tracer()
-        self.tracer.add_coord(self.bob2_coords.get_x(), self.bob2_coords.get_y())
+    def initiate_and_grid_tracers(self):
+        self.bob_1_tracer = tracer.Tracer()
+        self.bob_1_tracer.add_coord(self.bob1_coords.get_x(), self.bob1_coords.get_y())
 
-    def init_and_grid_canvas(self):
+        self.bob_2_tracer = tracer.Tracer()
+        self.bob_2_tracer.add_coord(self.bob2_coords.get_x(), self.bob2_coords.get_y())
+
+    def initiate_and_grid_canvas(self):
         self.canvas = tk.Canvas(
             master=self.root,
             background='black',
-            width=self.canvas_width,
-            height=self.canvas_height
+            width=CANVAS_WIDTH,
+            height=CANVAS_HEIGHT
         )
         self.canvas.grid(
             row=0,
