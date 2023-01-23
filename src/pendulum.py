@@ -26,6 +26,10 @@ class Pendulum:
         self.alpha = np.pi / 2
         self.beta = np.pi / 2
 
+        # TODO: init derivatives
+        self.d_alpha = 0.0
+        self.d_beta = 0.0
+
         # init start time
         self.start_time = time.time()
         self.current_time = 0.0
@@ -47,9 +51,38 @@ class Pendulum:
         self.start_pendulum()
 
     def calc_pendulum_angles(self):
-        # f начнем с чистого листа
-        pass
-    
+        # Components for the 2nd derivative of theta for pendulum 1
+        component_1 = (- G * (2 * self.mass_1 + self.mass_2) * np.sin(self.alpha)) - \
+                      (self.mass_2 * G * np.sin(self.alpha - 2 * self.beta))
+
+        component_2 = (2 * np.sin(self.alpha - self.beta) * self.mass_2) * \
+                      (self.d_beta ** 2 * self.length_2 +
+                       self.d_alpha ** 2 * self.length_1 * np.cos(self.alpha - self.beta))
+
+        component_3 = (2 * self.length_1 * self.mass_1) + \
+                      (self.length_1 * self.mass_2 * (1 - np.cos(2 * self.alpha - 2 * self.beta)))
+
+        dd_alpha = (component_1 - component_2) / component_3
+
+        # Components for the 2nd derivative of theta for pendulum 2
+        component_1 = 2 * np.sin(self.alpha - self.beta)
+
+        component_2 = (self.d_alpha ** 2 * self.length_1 * (self.mass_1 + self.mass_2)) + \
+                      (G * (self.mass_1 + self.mass_2) * np.cos(self.alpha)) + \
+                      (self.d_beta ** 2 * self.length_2 * self.mass_2 * np.cos(self.alpha - self.beta))
+
+        component_3 = (2 * self.length_2 * self.mass_1) + \
+                      (self.length_2 * self.mass_2) + \
+                      (self.length_2 * self.mass_2 * np.cos(2 * (self.alpha - self.beta)))
+
+        dd_beta = (component_1 * component_2) / component_3
+
+        self.d_alpha += dd_alpha * DELTA
+        self.d_beta += dd_beta * DELTA
+
+        self.alpha += self.d_alpha * DELTA
+        self.beta += self.d_beta * DELTA
+
     def stop_pendulum(self):
         self.is_active = False
 
@@ -62,10 +95,12 @@ class Pendulum:
         if self.is_active:
             # print('time = ' + str(self.current_time))
             self.current_time = time.time() - self.start_time
-            # drawing
+            # calculating
             self.calc_pendulum_angles()
+            self.calc_bob1_coords()
+            self.calc_bob2_coords()
+            # drawing
             self.draw_pendulum()
-            # self.draw_trace('green')
             # circle
             self.root.after(10, self.update_pendulum)
 
