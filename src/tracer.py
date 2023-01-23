@@ -11,8 +11,5 @@ class Tracer:
             self.trace = self.trace[1:]
         self.trace.append(Point(x, y))
 
-    def set_history_length(self, history_length):
-        self.history_length = history_length
-
     def get_trace(self):
         return self.trace

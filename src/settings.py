@@ -3,35 +3,35 @@ import tkinter as tk
 
 class Settings:
     def __init__(self, root, pendulum):
+        # set root and pendulum window
         self.root = root
         self.pendulum = pendulum
 
-        self.length_1 = 90
-        self.length_2 = 90
-        self.mass_1 = 1.0
-        self.mass_2 = 1.0
-
-        # TODO: посмотреть настройки Scale
-        self.mass_1_scale = tk.Scale()
-        self.mass_2_scale = tk.Scale()
-        self.length_1_scale = tk.Scale()
-        self.length_2_scale = tk.Scale()
-        self.confirm_button = tk.Button()
-
+        # initiate pendulum settings scales
+        self.mass1_scale = tk.Scale()
         self.init_and_grid_mass1_scale()
+
+        self.mass2_scale = tk.Scale()
         self.init_and_grid_mass2_scale()
+
+        self.length1_scale = tk.Scale()
         self.init_and_grid_length1_scale()
+
+        self.length2_scale = tk.Scale()
         self.init_and_grid_length2_scale()
-        self.init_confirm_button()
+
+        self.confirm_button = tk.Button()
+        self.init_and_grid_confirm_button()
 
         # TODO: сделать булеан на трейсинг
         # TODO: сделать удаление трейса
 
     def init_and_grid_mass1_scale(self):
-        mass_1_frame = tk.Frame(
+        # frame for label and scale
+        mass1_frame = tk.Frame(
             master=self.root
         )
-        mass_1_frame.grid(
+        mass1_frame.grid(
             row=10,
             rowspan=2,
             column=0,
@@ -41,7 +41,7 @@ class Settings:
         )
 
         tk.Label(
-            master=mass_1_frame,
+            master=mass1_frame,
             text='Масса 1 груза'
         ).grid(
             row=0,
@@ -51,29 +51,30 @@ class Settings:
             sticky='w'
         )
 
-        self.mass_1_scale = tk.Scale(
-            master=mass_1_frame,
+        self.mass1_scale = tk.Scale(
+            master=mass1_frame,
             orient=tk.HORIZONTAL,
             length=200,
-            from_=0.5,
-            to=2.5,
-            tickinterval=0.5,
-            resolution=0.5
+            from_=5,
+            to=20,
+            tickinterval=5,
+            resolution=1
         )
-        self.mass_1_scale.grid(
+        self.mass1_scale.grid(
             row=1,
             rowspan=1,
             column=0,
             columnspan=3
         )
 
-        self.mass_1_scale.set(1.0)
+        self.mass1_scale.set(5)
 
     def init_and_grid_mass2_scale(self):
-        mass_2_frame = tk.Frame(
+        # frame for label and scale
+        mass2_frame = tk.Frame(
             master=self.root
         )
-        mass_2_frame.grid(
+        mass2_frame.grid(
             row=12,
             rowspan=2,
             column=0,
@@ -83,7 +84,7 @@ class Settings:
         )
 
         tk.Label(
-            master=mass_2_frame,
+            master=mass2_frame,
             text='Масса 2 груза'
         ).grid(
             row=0,
@@ -93,29 +94,30 @@ class Settings:
             sticky='w'
         )
 
-        self.mass_2_scale = tk.Scale(
-            master=mass_2_frame,
+        self.mass2_scale = tk.Scale(
+            master=mass2_frame,
             orient=tk.HORIZONTAL,
             length=200,
-            from_=0.5,
-            to=2.5,
-            tickinterval=0.5,
-            resolution=0.5
+            from_=5,
+            to=20,
+            tickinterval=5,
+            resolution=1
         )
-        self.mass_2_scale.grid(
+        self.mass2_scale.grid(
             row=1,
             rowspan=1,
             column=0,
             columnspan=3
         )
 
-        self.mass_2_scale.set(1.0)
+        self.mass2_scale.set(5)
 
     def init_and_grid_length1_scale(self):
-        length_1_frame = tk.Frame(
+        # frame for label and scale
+        length1_frame = tk.Frame(
             master=self.root
         )
-        length_1_frame.grid(
+        length1_frame.grid(
             row=10,
             rowspan=2,
             column=3,
@@ -125,7 +127,7 @@ class Settings:
         )
 
         tk.Label(
-            master=length_1_frame,
+            master=length1_frame,
             text='Длина 1 нити'
         ).grid(
             row=0,
@@ -135,29 +137,30 @@ class Settings:
             sticky='w'
         )
 
-        self.length_1_scale = tk.Scale(
-            master=length_1_frame,
+        self.length1_scale = tk.Scale(
+            master=length1_frame,
             orient=tk.HORIZONTAL,
             length=200,
             from_=50,
             to=90,
             tickinterval=10,
-            resolution=10
+            resolution=1
         )
-        self.length_1_scale.grid(
+        self.length1_scale.grid(
             row=1,
             rowspan=1,
             column=0,
             columnspan=3
         )
 
-        self.length_1_scale.set(90)
+        self.length1_scale.set(90)
 
     def init_and_grid_length2_scale(self):
-        length_2_frame = tk.Frame(
+        # frame for label and scale
+        length2_frame = tk.Frame(
             master=self.root
         )
-        length_2_frame.grid(
+        length2_frame.grid(
             row=12,
             rowspan=2,
             column=3,
@@ -167,7 +170,7 @@ class Settings:
         )
 
         tk.Label(
-            master=length_2_frame,
+            master=length2_frame,
             text='Длина 2 нити'
         ).grid(
             row=0,
@@ -177,25 +180,25 @@ class Settings:
             sticky='w'
         )
 
-        self.length_2_scale = tk.Scale(
-            master=length_2_frame,
+        self.length2_scale = tk.Scale(
+            master=length2_frame,
             orient=tk.HORIZONTAL,
             length=200,
             from_=50,
             to=90,
             tickinterval=10,
-            resolution=10
+            resolution=1
         )
-        self.length_2_scale.grid(
+        self.length2_scale.grid(
             row=1,
             rowspan=1,
             column=0,
             columnspan=3
         )
 
-        self.length_2_scale.set(90)
+        self.length2_scale.set(90)
 
-    def init_confirm_button(self):
+    def init_and_grid_confirm_button(self):
         self.confirm_button = tk.Button(
             master=self.root,
             text='подтвердить настройки',
@@ -212,19 +215,8 @@ class Settings:
         )
 
     def set_settings(self):
-        self.length_1 = self.length_1_scale.get()
-        self.length_2 = self.length_2_scale.get()
-        self.mass_1 = self.mass_1_scale.get()
-        self.mass_2 = self.mass_2_scale.get()
-
-    def get_length1(self):
-        return self.length_1
-
-    def get_length2(self):
-        return self.length_2
-
-    def get_mass1(self):
-        return self.mass_1
-
-    def get_mass2(self):
-        return self.mass_2
+        pass
+    #     self.length1 = self.length1_scale.get()
+    #     self.length2 = self.length2_scale.get()
+    #     self.mass1 = self.mass1_scale.get()
+    #     self.mass2 = self.mass2_scale.get()
