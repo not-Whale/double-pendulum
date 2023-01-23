@@ -12,8 +12,8 @@ class App:
         self.root.resizable(False, False)
 
         self.pendulum = pendulum.Pendulum(self.root)
-        self.timer = timer.Timer(self.root, self.pendulum)
         self.settings = settings.Settings(self.root, self.pendulum)
+        self.timer = timer.Timer(self.root, self.pendulum, self.settings)
 
         self.root.mainloop()
 

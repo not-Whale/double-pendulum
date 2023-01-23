@@ -3,10 +3,11 @@ import tkinter as tk
 
 
 class Timer:
-    def __init__(self, root, pendulum):
-        # set root and pendulum windows
+    def __init__(self, root, pendulum, settings):
+        # set root, pendulum and settings windows
         self.root = root
         self.pendulum = pendulum
+        self.settings = settings
 
         # initiate timer settings
         self.is_active = False
@@ -64,7 +65,8 @@ class Timer:
             text='stop',
             width=10,
             height=1,
-            command=self.stop_timer
+            command=self.stop_timer,
+            state='disabled'
         )
         self.button_stop.grid(
             row=2,
@@ -74,6 +76,15 @@ class Timer:
         )
 
     def start_timer(self):
+        # set buttons state
+        self.button_start['state'] = 'disabled'
+        self.button_stop['state'] = 'normal'
+        self.settings.confirm_button['state'] = 'disabled'
+
+        # start pendulum
+        self.pendulum.start_pendulum()
+
+        # start timer
         self.is_active = True
         self.start_time = time.time()
         self.update_timer()
@@ -85,4 +96,13 @@ class Timer:
             self.root.after(90, self.update_timer)
 
     def stop_timer(self):
+        # set buttons state
+        self.button_start['state'] = 'normal'
+        self.button_stop['state'] = 'disabled'
+        self.settings.confirm_button['state'] = 'normal'
+
+        # stop pendulum
+        self.pendulum.stop_pendulum()
+
+        # stop timer
         self.is_active = False

@@ -51,6 +51,7 @@ class Pendulum:
 
     def stop_pendulum(self):
         self.is_active = False
+        self.initiate_and_grid_tracers()
 
     def start_pendulum(self):
         self.is_active = True
