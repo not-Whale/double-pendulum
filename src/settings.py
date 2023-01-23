@@ -9,24 +9,24 @@ class Settings:
 
         # initiate pendulum settings scales
         self.mass1_scale = tk.Scale()
-        self.init_and_grid_mass1_scale()
+        self.initiate_and_grid_mass1_scale()
 
         self.mass2_scale = tk.Scale()
-        self.init_and_grid_mass2_scale()
+        self.initiate_and_grid_mass2_scale()
 
         self.length1_scale = tk.Scale()
-        self.init_and_grid_length1_scale()
+        self.initiate_and_grid_length1_scale()
 
         self.length2_scale = tk.Scale()
-        self.init_and_grid_length2_scale()
+        self.initiate_and_grid_length2_scale()
 
         self.confirm_button = tk.Button()
-        self.init_and_grid_confirm_button()
+        self.initiate_and_grid_confirm_button()
 
         # TODO: сделать булеан на трейсинг
         # TODO: сделать удаление трейса
 
-    def init_and_grid_mass1_scale(self):
+    def initiate_and_grid_mass1_scale(self):
         # frame for label and scale
         mass1_frame = tk.Frame(
             master=self.root
@@ -69,7 +69,7 @@ class Settings:
 
         self.mass1_scale.set(5)
 
-    def init_and_grid_mass2_scale(self):
+    def initiate_and_grid_mass2_scale(self):
         # frame for label and scale
         mass2_frame = tk.Frame(
             master=self.root
@@ -112,7 +112,7 @@ class Settings:
 
         self.mass2_scale.set(5)
 
-    def init_and_grid_length1_scale(self):
+    def initiate_and_grid_length1_scale(self):
         # frame for label and scale
         length1_frame = tk.Frame(
             master=self.root
@@ -155,7 +155,7 @@ class Settings:
 
         self.length1_scale.set(90)
 
-    def init_and_grid_length2_scale(self):
+    def initiate_and_grid_length2_scale(self):
         # frame for label and scale
         length2_frame = tk.Frame(
             master=self.root
@@ -198,7 +198,7 @@ class Settings:
 
         self.length2_scale.set(90)
 
-    def init_and_grid_confirm_button(self):
+    def initiate_and_grid_confirm_button(self):
         self.confirm_button = tk.Button(
             master=self.root,
             text='подтвердить настройки',
