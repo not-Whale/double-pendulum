@@ -20,6 +20,9 @@ class Settings:
         self.length2_scale = tk.Scale()
         self.initiate_and_grid_length2_scale()
 
+        self.tracing_mode_scale = tk.Scale()
+        self.initiate_and_grid_tracing_mode_scale()
+
         self.confirm_button = tk.Button()
         self.initiate_and_grid_confirm_button()
 
@@ -198,6 +201,47 @@ class Settings:
 
         self.length2_scale.set(90)
 
+    def initiate_and_grid_tracing_mode_scale(self):
+        # frame for label and scale
+        tracing_mode_frame = tk.Frame(
+            master=self.root
+        )
+        tracing_mode_frame.grid(
+            row=10,
+            rowspan=2,
+            column=6,
+            columnspan=3,
+            padx=20,
+            pady=20
+        )
+
+        tk.Label(
+            master=tracing_mode_frame,
+            text='Тип отслеживания'
+        ).grid(
+            row=0,
+            rowspan=1,
+            column=0,
+            columnspan=1,
+            sticky='w'
+        )
+
+        self.tracing_mode_scale = tk.Scale(
+            master=tracing_mode_frame,
+            orient=tk.HORIZONTAL,
+            length=200,
+            from_=0,
+            to=2,
+            tickinterval=1,
+            resolution=1
+        )
+        self.tracing_mode_scale.grid(
+            row=1,
+            rowspan=1,
+            column=0,
+            columnspan=1
+        )
+
     def initiate_and_grid_confirm_button(self):
         self.confirm_button = tk.Button(
             master=self.root,
@@ -220,7 +264,11 @@ class Settings:
         self.pendulum.set_mass2(self.mass2_scale.get())
         self.pendulum.set_length1(self.length1_scale.get())
         self.pendulum.set_length2(self.length2_scale.get())
+        self.pendulum.calculate_pendulum_state()
+
+        # set new tracing settings
+        self.pendulum.set_tracing_mode(self.tracing_mode_scale.get())
 
         # update picture on canvas
-        self.pendulum.calculate_pendulum_state()
         self.pendulum.draw_pendulum()
+        self.pendulum.draw_traces()

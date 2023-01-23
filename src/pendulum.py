@@ -84,7 +84,7 @@ class Pendulum:
 
     def set_tracing_mode(self, code):
         self.tracing_mode = code
-        self.initiate_and_grid_tracers()
+        self.canvas.delete('trace')
 
     def calculate_pendulum_state(self):
         self.calculate_pendulum_angles()
@@ -159,15 +159,15 @@ class Pendulum:
         # tracing_mode == 1 || 2
         if self.tracing_mode > 0:
             self.draw_trace(
-                self.bob1_tracer.get_trace(),
-                TRACE_BOB1_COLOR
+                self.bob2_tracer.get_trace(),
+                TRACE_BOB2_COLOR
             )
 
         # tracing_mode == 2
         if self.tracing_mode > 1:
             self.draw_trace(
-                self.bob2_tracer.get_trace(),
-                TRACE_BOB2_COLOR
+                self.bob1_tracer.get_trace(),
+                TRACE_BOB1_COLOR
             )
 
     def draw_trace(self, trace, color):
