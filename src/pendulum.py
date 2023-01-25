@@ -99,8 +99,8 @@ class Pendulum:
         self.length2 = length2
 
     def set_tracing_mode(self, code):
-        self.tracing_mode = code
         self.canvas.delete('trace')
+        self.tracing_mode = code
         self.initiate_tracers()
 
     def calculate_pendulum_state(self):

@@ -3,7 +3,7 @@ import tkinter as tk
 
 class Settings:
     def __init__(self, root, pendulum):
-        # set root and pendulum window
+        # set root window and pendulum widget
         self.root = root
         self.pendulum = pendulum
 
@@ -25,9 +25,6 @@ class Settings:
 
         self.confirm_button = tk.Button()
         self.initiate_and_grid_confirm_button()
-
-        # TODO: сделать булеан на трейсинг
-        # TODO: сделать удаление трейса
 
     def initiate_and_grid_mass1_scale(self):
         # frame for label and scale
@@ -264,7 +261,8 @@ class Settings:
         self.pendulum.set_mass2(self.mass2_scale.get())
         self.pendulum.set_length1(self.length1_scale.get())
         self.pendulum.set_length2(self.length2_scale.get())
-        self.pendulum.calculate_pendulum_state()
+        self.pendulum.calculate_bob1_coords()
+        self.pendulum.calculate_bob2_coords()
 
         # set new tracing settings
         self.pendulum.set_tracing_mode(self.tracing_mode_scale.get())

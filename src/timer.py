@@ -3,11 +3,9 @@ import tkinter as tk
 
 
 class Timer:
-    def __init__(self, root, pendulum, settings):
-        # set root, pendulum and settings windows
+    def __init__(self, root):
+        # set root window
         self.root = root
-        self.pendulum = pendulum
-        self.settings = settings
 
         # initiate timer settings
         self.is_active = False
@@ -15,17 +13,18 @@ class Timer:
 
         # initiate timer and pendulum start/stop buttons
         self.timer_label = tk.Label()
-        self.button_start = tk.Button()
-        self.button_stop = tk.Button()
-        self.button_reset = tk.Button()
+        self.timer_frame = tk.Label()
         self.initiate_and_grid_timer()
+
+    def get_timer_frame(self):
+        return self.timer_frame
 
     def initiate_and_grid_timer(self):
         # frame for timer and buttons
-        timer_frame = tk.Frame(
+        self.timer_frame = tk.Frame(
             master=self.root
         )
-        timer_frame.grid(
+        self.timer_frame.grid(
             row=0,
             rowspan=4,
             column=0,
@@ -35,7 +34,7 @@ class Timer:
         )
 
         self.timer_label = tk.Label(
-            master=timer_frame,
+            master=self.timer_frame,
             text='0.00 ms',
             width=20,
             height=3
@@ -47,60 +46,7 @@ class Timer:
             columnspan=3
         )
 
-        self.button_start = tk.Button(
-            master=timer_frame,
-            text='запустить',
-            width=10,
-            height=1,
-            command=self.start_timer
-        )
-        self.button_start.grid(
-            row=1,
-            rowspan=1,
-            column=0,
-            columnspan=3
-        )
-
-        self.button_stop = tk.Button(
-            master=timer_frame,
-            text='остановить',
-            width=10,
-            height=1,
-            command=self.stop_timer,
-            state='disabled'
-        )
-        self.button_stop.grid(
-            row=2,
-            rowspan=1,
-            column=0,
-            columnspan=3
-        )
-
-        self.button_reset = tk.Button(
-            master=timer_frame,
-            text='сбросить',
-            width=10,
-            height=1,
-            command=self.reset_timer
-        )
-        self.button_reset.grid(
-            row=3,
-            rowspan=1,
-            column=0,
-            columnspan=3
-        )
-
     def start_timer(self):
-        # set buttons state
-        self.button_start['state'] = 'disabled'
-        self.button_stop['state'] = 'normal'
-        self.button_reset['state'] = 'disabled'
-        self.settings.confirm_button['state'] = 'disabled'
-
-        # start pendulum
-        self.pendulum.start_pendulum()
-
-        # start timer
         self.is_active = True
         self.start_time = time.time()
         self.update_timer()
@@ -112,26 +58,7 @@ class Timer:
             self.root.after(90, self.update_timer)
 
     def stop_timer(self):
-        # set buttons state
-        self.button_start['state'] = 'normal'
-        self.button_stop['state'] = 'disabled'
-        self.button_reset['state'] = 'normal'
-        self.settings.confirm_button['state'] = 'normal'
-
-        # stop pendulum
-        self.pendulum.stop_pendulum()
-
-        # stop timer
         self.is_active = False
 
     def reset_timer(self):
-        # reset timer
         self.timer_label['text'] = '0.00 ms'
-
-        # reset pendulum
-        self.pendulum.reset_pendulum()
-        self.pendulum.draw_pendulum()
-        self.pendulum.draw_traces()
-
-        # reset settings
-        self.settings.reset_settings()
