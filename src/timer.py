@@ -35,7 +35,7 @@ class Timer:
 
         self.timer_label = tk.Label(
             master=self.timer_frame,
-            text='0.00 ms',
+            text='0.00 sec',
             width=20,
             height=3
         )
@@ -54,11 +54,11 @@ class Timer:
     def update_timer(self):
         if self.is_active:
             delta = time.time() - self.start_time
-            self.timer_label['text'] = '{0:.2f}'.format(delta) + " ms"
+            self.timer_label['text'] = '{0:.2f}'.format(delta) + " sec"
             self.root.after(90, self.update_timer)
 
     def stop_timer(self):
         self.is_active = False
 
     def reset_timer(self):
-        self.timer_label['text'] = '0.00 ms'
+        self.timer_label['text'] = '0.00 sec'
